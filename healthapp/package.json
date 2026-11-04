@@ -11,6 +11,7 @@
     "calculateExercises": "tsc-files exerciseCalculator.ts && node exerciseCalculator.ts"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
     "tsc-files": "^1.1.4",
     "typescript": "^7.0.2"
   }
