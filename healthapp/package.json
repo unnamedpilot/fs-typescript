@@ -7,9 +7,11 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "calculateBmi": "tsc && node bmiCalculator.ts"
+    "calculateBmi": "tsc-files bmiCalculator && node bmiCalculator.ts",
+    "calculateExercises": "tsc-files exerciseCalculator.ts && node exerciseCalculator.ts"
   },
   "devDependencies": {
+    "tsc-files": "^1.1.4",
     "typescript": "^7.0.2"
   }
 }
