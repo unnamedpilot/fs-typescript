@@ -1,4 +1,10 @@
-const calculateBmi = (height: number, weight: number): string => {
+interface bmiData {
+    height: number,
+    weight: number
+}
+
+const calculateBmi = (data: bmiData): string => {
+    const { height, weight } = data
     const bmi = weight/((height/100)^2);
     if (bmi >= 40) return "Obese (Class III)";
     else if (bmi >= 35) return "Obese (Class II)";
@@ -10,4 +16,34 @@ const calculateBmi = (height: number, weight: number): string => {
     else return "Underweight (Severe thinness)"
 }
 
-console.log(calculateBmi(180, 74));
+const parseArguments = (args: string[]): bmiData => {
+    if (args.length > 4) throw new Error("Too much arguments");
+    else if (args.length < 4) throw new Error("Missing arguments");
+    
+    const height = Number(args[2]);
+    const weight = Number(args[3]);
+
+    if (!isNaN(height) && !isNaN(weight)) {
+        if (height <= 0 || weight <= 0) throw new Error("both arguments must be greater than 0")
+        return { height, weight }
+    }
+    else {
+        throw new Error("Both arguments must be numbers")
+    }
+
+}
+
+try {
+    const data = parseArguments(process.argv)
+    const result = calculateBmi(data)
+    console.log(result)
+} catch (error: unknown) {
+    let errorMessage = "Something bad happened";
+    if(error instanceof Error) {
+        errorMessage += ": " + error.message
+    }
+    console.log(errorMessage)
+
+}
+
+export {}

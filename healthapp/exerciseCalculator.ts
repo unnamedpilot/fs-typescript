@@ -1,4 +1,4 @@
-interface ExerciseInformation {
+interface ExerciseSummary {
     periodLength: number,
     trainingDays: number,
     success: boolean,
@@ -8,8 +8,29 @@ interface ExerciseInformation {
     average: number
 }
 
-const calculateExercises = (hours: number[], target: number): ExerciseInformation => {
-    // This is not the average there is something missing
+interface ExerciseInformation {
+    hours: number[],
+    target: number
+}
+
+const parseArguments = (args: string[]): ExerciseInformation => {
+    if (args.length < 4) throw new Error("not enough arguments");
+
+    const mappedArgs = args.slice(2).map(num => Number(num))
+    if (mappedArgs.every(num => !isNaN(num))) {
+        return {
+            hours: mappedArgs.slice(0,-1),
+            target: mappedArgs[mappedArgs.length - 1]
+        }
+    }   
+    else {
+        throw new Error("all arguments must be numbers")
+    }
+
+}
+
+const calculateExercises = (info: ExerciseInformation): ExerciseSummary => {
+    const { hours, target } = info
     const average = hours.reduce((acc, currDay) => acc + currDay, 0)/hours.length;
     const periodLength = hours.length;
     const trainingDays = hours.filter(day => day !== 0).length;
@@ -33,4 +54,16 @@ const calculateExercises = (hours: number[], target: number): ExerciseInformatio
     }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+    const info = parseArguments(process.argv);
+    const summary = calculateExercises(info);
+    console.log(summary)
+} catch (error: unknown) {
+    let errorMessage = "Something bad happened";
+    if (error instanceof Error){
+        errorMessage += ": " + error;
+    }
+    console.log(errorMessage);
+}
+
+export {}
