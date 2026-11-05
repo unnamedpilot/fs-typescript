@@ -33,7 +33,8 @@ const parseArguments = (args: string[]): bmiData => {
 
 }
 
-try {
+if(process.argv[1] === import.meta.filename){
+    try {
     const data = parseArguments(process.argv)
     const result = calculateBmi(data)
     console.log(result)
@@ -43,7 +44,9 @@ try {
         errorMessage += ": " + error.message
     }
     console.log(errorMessage)
+}
+
 
 }
 
-export {}
+export default calculateBmi
