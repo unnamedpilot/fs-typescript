@@ -8,7 +8,7 @@ interface ExerciseSummary {
     average: number
 }
 
-interface ExerciseInformation {
+export interface ExerciseInformation {
     hours: number[],
     target: number
 }
@@ -29,13 +29,13 @@ const parseArguments = (args: string[]): ExerciseInformation => {
 
 };
 
-const calculateExercises = (info: ExerciseInformation): ExerciseSummary => {
+export const calculateExercises = (info: ExerciseInformation): ExerciseSummary => {
     const { hours, target } = info;
     const average = hours.reduce((acc, currDay) => acc + currDay, 0)/hours.length;
     const periodLength = hours.length;
     const trainingDays = hours.filter(day => day !== 0).length;
     const success = average >= target;
-    const rating = Math.trunc(trainingDays/periodLength * 3);
+    const rating = Math.trunc(average/target * 3);
     const ratingList = [
         "Expect you to make an effort next time",
         "you have plenty of room for improvement",
