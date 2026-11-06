@@ -16,21 +16,21 @@ interface ExerciseInformation {
 const parseArguments = (args: string[]): ExerciseInformation => {
     if (args.length < 4) throw new Error("not enough arguments");
 
-    const mappedArgs = args.slice(2).map(num => Number(num))
+    const mappedArgs = args.slice(2).map(num => Number(num));
     if (mappedArgs.every(num => !isNaN(num))) {
         return {
             hours: mappedArgs.slice(0,-1),
             target: mappedArgs[mappedArgs.length - 1]
-        }
+        };
     }   
     else {
-        throw new Error("all arguments must be numbers")
+        throw new Error("all arguments must be numbers");
     }
 
-}
+};
 
 const calculateExercises = (info: ExerciseInformation): ExerciseSummary => {
-    const { hours, target } = info
+    const { hours, target } = info;
     const average = hours.reduce((acc, currDay) => acc + currDay, 0)/hours.length;
     const periodLength = hours.length;
     const trainingDays = hours.filter(day => day !== 0).length;
@@ -41,8 +41,8 @@ const calculateExercises = (info: ExerciseInformation): ExerciseSummary => {
         "you have plenty of room for improvement",
         "not bad but it could be better",
         "perfect"
-    ]
-    const ratingDescription = ratingList[rating]
+    ];
+    const ratingDescription = ratingList[rating];
     return {
         periodLength,
         trainingDays,
@@ -51,19 +51,23 @@ const calculateExercises = (info: ExerciseInformation): ExerciseSummary => {
         ratingDescription,
         target,
         average
+    };
+};
+
+if(process.argv[1] === import.meta.filename) {
+    try {
+        const info = parseArguments(process.argv);
+        const summary = calculateExercises(info);
+        console.log(summary);
+    } catch (error: unknown) {
+        let errorMessage = "Something bad happened";
+        if (error instanceof Error){
+            errorMessage += ": " + error;
+        }
+        console.log(errorMessage);
     }
 }
 
-try {
-    const info = parseArguments(process.argv);
-    const summary = calculateExercises(info);
-    console.log(summary)
-} catch (error: unknown) {
-    let errorMessage = "Something bad happened";
-    if (error instanceof Error){
-        errorMessage += ": " + error;
-    }
-    console.log(errorMessage);
-}
 
-export {}
+
+export {};
